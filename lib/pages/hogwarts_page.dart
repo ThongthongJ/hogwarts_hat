@@ -23,7 +23,7 @@ class _HogwartsPageState extends State<HogwartsPage> {
           children: [
             Row(
               children: [
-                Text(""),
+                Text("  "),
               ],
             ),
           ],
