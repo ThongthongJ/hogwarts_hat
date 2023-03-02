@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:hogwarts_hat/hogwarts_houses.dart';
-import 'package:hogwarts_hat/hogwarts_sorting_hat.dart';
+import 'package:hogwarts_hat/backend/hogwarts_houses.dart';
+import 'package:hogwarts_hat/backend/hogwarts_sorting_hat.dart';
 
 void main() {
   int num_std;
-  var houses = HOGWARTS_HOUSES();
-  var hat = HOGWARTS_SORTING_HAT(houses);
+  var houses = HogwartsHouses();
+  var hat = HogwartsSortingHat(houses);
 
   print("Please enter num of student (only number!)");
   num_std = int.parse(stdin.readLineSync()!);

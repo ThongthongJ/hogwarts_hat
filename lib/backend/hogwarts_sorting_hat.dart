@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:hogwarts_hat/hogwarts_houses.dart';
+import 'package:hogwarts_hat/backend/hogwarts_houses.dart';
 
-class HOGWARTS_SORTING_HAT {
+class HogwartsSortingHat {
   int _num_std = 0;
   int _n_each_house = 0;
   List _shortName_house = ['G', 'H', 'R', 'S'];
@@ -13,7 +13,7 @@ class HOGWARTS_SORTING_HAT {
 
   Random _rng = new Random();
 
-  HOGWARTS_SORTING_HAT(HOGWARTS_HOUSES objHouse) {
+  HogwartsSortingHat(HogwartsHouses objHouse) {
     this._hogwart_house = objHouse;
   }
 

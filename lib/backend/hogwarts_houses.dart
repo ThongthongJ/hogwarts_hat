@@ -1,10 +1,10 @@
-class HOGWARTS_HOUSES {
+class HogwartsHouses {
   List _gryffindor = [];
   List _hufflepuff = [];
   List _ravenclaw = [];
   List _slytherin = [];
 
-  HOGWARTS_HOUSES() {}
+  HogwartsHouses() {}
 
   void addToGryffindor(String nameStd) {
     this._gryffindor.add(nameStd);
