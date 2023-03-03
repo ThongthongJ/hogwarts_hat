@@ -22,19 +22,26 @@ class HogwartsHouses {
     this._slytherin.add(nameStd);
   }
 
-  List getList_Gryffindor() {
+  List getListGryffindor() {
     return _gryffindor;
   }
 
-  List getList_Hufflepuff() {
+  List getListHufflepuff() {
     return _hufflepuff;
   }
 
-  List getList_Ravenclaw() {
+  List getListRavenclaw() {
     return _ravenclaw;
   }
 
-  List getList_Slytherin() {
+  List getListSlytherin() {
     return _slytherin;
+  }
+
+  void resetHouse() {
+    _gryffindor.clear();
+    _hufflepuff.clear();
+    _ravenclaw.clear();
+    _slytherin.clear();
   }
 }

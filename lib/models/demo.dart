@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:hogwarts_hat/backend/hogwarts_houses.dart';
-import 'package:hogwarts_hat/backend/hogwarts_sorting_hat.dart';
+import 'hogwarts_houses.dart';
+import 'hogwarts_sorting_hat.dart';
 
 void main() {
   int num_std;
@@ -9,9 +9,9 @@ void main() {
 
   print("Please enter num of student (only number!)");
   num_std = int.parse(stdin.readLineSync()!);
-  hat.setNum_std(num_std);
-  hat.setCapacity_house();
-  List cap = hat.getCapacity_house();
+  hat.setNumStd(num_std);
+  hat.setCapacityHouse();
+  List cap = hat.getCapacityHouse();
 
   for (int i = 0; i < 4; i++) {
     print("Capacity of house${i + 1}: ${cap[i]}");
@@ -26,10 +26,10 @@ void main() {
     print(nameHouse);
   }
 
-  List house_Gryffindor = houses.getList_Gryffindor();
-  List house_Hufflepuffr = houses.getList_Hufflepuff();
-  List house_Ravenclaw = houses.getList_Ravenclaw();
-  List house_Slytherin = houses.getList_Slytherin();
+  List house_Gryffindor = houses.getListGryffindor();
+  List house_Hufflepuffr = houses.getListHufflepuff();
+  List house_Ravenclaw = houses.getListRavenclaw();
+  List house_Slytherin = houses.getListSlytherin();
 
   print("");
   print("Student of Gryffindor House :");

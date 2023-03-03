@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:hogwarts_hat/backend/hogwarts_houses.dart';
+import 'hogwarts_houses.dart';
 
 class HogwartsSortingHat {
   int _num_std = 0;
@@ -18,15 +18,15 @@ class HogwartsSortingHat {
     this._hogwart_house = objHouse;
   }
 
-  void setNum_std(int num) {
+  void setNumStd(int num) {
     this._num_std = num;
   }
 
-  int getNum_std() {
+  int getNumStd() {
     return this._num_std;
   }
 
-  void setCapacity_house() {
+  void setCapacityHouse() {
     if (_num_std < 4) {
       this._n_each_house = 1;
     } else {
@@ -37,7 +37,7 @@ class HogwartsSortingHat {
     }
   }
 
-  List getCapacity_house() {
+  List getCapacityHouse() {
     return _capcity_house;
   }
 
@@ -79,7 +79,7 @@ class HogwartsSortingHat {
     } else {
       //Gryffindor
       if (_nameHouse == 'G') {
-        if (_hogwart_house.getList_Gryffindor().length < _n_each_house) {
+        if (_hogwart_house.getListGryffindor().length < _n_each_house) {
           _hogwart_house.addToGryffindor(nameStd);
           _capcity_house[0]--;
           _str = "House : Gryffindor";
@@ -91,7 +91,7 @@ class HogwartsSortingHat {
       }
       //Hufflepuff
       else if (_nameHouse == 'H') {
-        if (_hogwart_house.getList_Hufflepuff().length < _n_each_house) {
+        if (_hogwart_house.getListHufflepuff().length < _n_each_house) {
           _hogwart_house.addToHufflepuf(nameStd);
           _capcity_house[1]--;
           _str = "House : Hufflepuf";
@@ -103,7 +103,7 @@ class HogwartsSortingHat {
       }
       //Ravenclaw
       else if (_nameHouse == 'R') {
-        if (_hogwart_house.getList_Ravenclaw().length < _n_each_house) {
+        if (_hogwart_house.getListRavenclaw().length < _n_each_house) {
           _hogwart_house.addToRavenclaw(nameStd);
           _capcity_house[2]--;
           _str = "House : Ravenclaw";
@@ -115,7 +115,7 @@ class HogwartsSortingHat {
       }
       //Slytherin
       else if (_nameHouse == 'S') {
-        if (_hogwart_house.getList_Slytherin().length < _n_each_house) {
+        if (_hogwart_house.getListSlytherin().length < _n_each_house) {
           _hogwart_house.addToSlytherin(nameStd);
           _capcity_house[3]--;
           _str = "House : Slytherin";
