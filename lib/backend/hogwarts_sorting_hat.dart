@@ -10,10 +10,11 @@ class HogwartsSortingHat {
   List _temp_house = [];
   bool _houseFull = false;
   var _hogwart_house;
-
   Random _rng = new Random();
 
-  HogwartsSortingHat(HogwartsHouses objHouse) {
+  HogwartsSortingHat() {}
+
+  HogwartsSortingHat.from(HogwartsHouses objHouse) {
     this._hogwart_house = objHouse;
   }
 

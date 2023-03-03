@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hogwarts_hat/backend/hogwarts_houses.dart';
+import 'package:hogwarts_hat/backend/hogwarts_sorting_hat.dart';
 
 class HogwartsPage extends StatefulWidget {
   const HogwartsPage({Key? key}) : super(key: key);
@@ -11,6 +13,15 @@ class HogwartsPage extends StatefulWidget {
 class _HogwartsPageState extends State<HogwartsPage> {
   final _controller = TextEditingController();
   var _feedbackText = '';
+  HogwartsHouses _houses = HogwartsHouses();
+  var _hat = HogwartsSortingHat();
+  List _capacity = [];
+
+  @override
+  void initState() {
+    this._hat = HogwartsSortingHat.from(_houses);
+    //print("hat created");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +74,12 @@ class _HogwartsPageState extends State<HogwartsPage> {
                         onPressed: () {
                           var temp = int.tryParse(_controller.text);
                           if (temp == null) {
-                            _feedbackText = 'Please enter a value.';
+                            _feedbackText = 'Please enter a Num of Student.';
+                            setState(() {});
+                          } else {
+                            _hat.setNum_std(temp);
+                            _capacity = _hat.getCapacity_house();
+                            _feedbackText = 'Value : ${_hat.getNum_std()}';
                             setState(() {});
                           }
                         },
