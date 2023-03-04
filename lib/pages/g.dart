@@ -16,6 +16,7 @@ class _GryffindorPageState extends State<HousePage> {
   Widget _buidListItemG(BuildContext context, int index) {
     var _G = widget.students[index];
     return Card(
+
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(

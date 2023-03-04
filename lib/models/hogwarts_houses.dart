@@ -39,6 +39,7 @@ class HogwartsHouses {
   }
 
   void resetHouse() {
+    print(_gryffindor.length);
     _gryffindor.clear();
     _hufflepuff.clear();
     _ravenclaw.clear();

@@ -38,89 +38,6 @@ class _HogwartsPageState extends State<HogwartsPage> {
     this._hat = HogwartsSortingHat.from(_houses);
   }
 
-  Future<void> _showMyDialog() async {
-    _gryffindor = _houses.getListGryffindor();
-    _hufflepuff = _houses.getListHufflepuff();
-    _ravenclaw = _houses.getListRavenclaw();
-    _slytherin = _houses.getListSlytherin();
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('AlertDialog Title'),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text("Gryffindor", style: TextStyle(fontSize: 24)),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text("Hufflepuff", style: TextStyle(fontSize: 24)),
-                    SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(children: [
-                          for (int i = 0; i < _hufflepuff.length; i++)
-                            Text(_hufflepuff[i])
-                        ]))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text("Ravenclaw", style: TextStyle(fontSize: 24)),
-                    SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(children: [
-                          for (int i = 0; i < _ravenclaw.length; i++)
-                            Text(_ravenclaw[i])
-                        ]))
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text(
-                      "Slytherin",
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(children: [
-                          for (int i = 0; i < _slytherin.length; i++)
-                            Text(_slytherin[i])
-                        ]))
-                  ],
-                ),
-              )
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Approve'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Widget inputWidget;
@@ -219,91 +136,99 @@ class _HogwartsPageState extends State<HogwartsPage> {
           child: Text("Exit"));
     } else {
       inputWidget = SizedBox.shrink();
-      buttonWidget = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      buttonWidget = Column(
         children: [
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _houses.resetHouse();
-                  appState = AppState.EnteringName;
-                  _check_n_std = 0;
-                });
-              },
-              child: Text("Reset")),
-          SizedBox(width: 8),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  print(_houses.getListGryffindor());
-                  print(_houses.getListHufflepuff());
-                  print(_houses.getListRavenclaw());
-                  print(_houses.getListSlytherin());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HousePage(
-                          students: _houses.getListGryffindor(),
-                          houseName: 'Gryffindor',
-                        )),
-                  );
-                });
-              },
-              child: Text("Show Gryffindor")),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  print(_houses.getListGryffindor());
-                  print(_houses.getListHufflepuff());
-                  print(_houses.getListRavenclaw());
-                  print(_houses.getListSlytherin());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HousePage(
-                          students: _houses.getListHufflepuff(),
-                          houseName: 'Hufflepuff',
-                        )),
-                  );
-                });
-              },
-              child: Text("Show Hufflepuff")),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  print(_houses.getListGryffindor());
-                  print(_houses.getListHufflepuff());
-                  print(_houses.getListRavenclaw());
-                  print(_houses.getListSlytherin());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HousePage(
-                          students: _houses.getListRavenclaw(),
-                          houseName: 'Ravenclaw',
-                        )),
-                  );
-                });
-              },
-              child: Text("Show Ravenclaw")),
-          ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  print(_houses.getListGryffindor());
-                  print(_houses.getListHufflepuff());
-                  print(_houses.getListRavenclaw());
-                  print(_houses.getListSlytherin());
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HousePage(
-                          students: _houses.getListSlytherin(),
-                          houseName: 'Slytherin',
-                        )),
-                  );
-                });
-              },
-              child: Text("Show Slytherin")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HousePage(
+                                    students: _houses.getListGryffindor(),
+                                    houseName: 'Gryffindor',
+                                  )),
+                        );
+                      });
+                    },
+                    child: Text("Show Gryffindor")),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HousePage(
+                                    students: _houses.getListHufflepuff(),
+                                    houseName: 'Hufflepuff',
+                                  )),
+                        );
+                      });
+                    },
+                    child: Text("Show Hufflepuff")),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HousePage(
+                                    students: _houses.getListRavenclaw(),
+                                    houseName: 'Ravenclaw',
+                                  )),
+                        );
+                      });
+                    },
+                    child: Text("Show Ravenclaw")),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HousePage(
+                                    students: _houses.getListSlytherin(),
+                                    houseName: 'Slytherin',
+                                  )),
+                        );
+                      });
+                    },
+                    child: Text("Show Slytherin")),
+              ),
+              SizedBox(width: 8),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _houses.resetHouse();
+                        appState = AppState.EnteringName;
+                        _check_n_std = 0;
+                      });
+                    },
+                    child: Icon(Icons.refresh)),
+              ),
+            ],
+          )
         ],
       );
     }
