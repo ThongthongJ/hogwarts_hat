@@ -19,10 +19,7 @@ class _HogwartsPageState extends State<HogwartsPage> {
   final _controllerName = TextEditingController();
   var _feedbackText = '';
   int _check_n_std = 0;
-  int _checkG = 0;
-  int _checkH = 0;
-  int _checkR = 0;
-  int _checkS = 0;
+  bool _isHat = true;
   String house = "";
   HogwartsHouses _houses = HogwartsHouses();
   var _hat = HogwartsSortingHat();
@@ -44,12 +41,6 @@ class _HogwartsPageState extends State<HogwartsPage> {
     Widget buttonWidget;
     Widget showListG;
 
-    if (_checkG < _gryffindor.length) {
-      for (int i = 0; i < _gryffindor.length; i++) {
-        var nameG = _gryffindor[i];
-        showListG = Text(_gryffindor[i]);
-      }
-    }
     if (appState == AppState.EnteringNumber) {
       inputWidget = TextField(
           controller: _controllerNum,
@@ -74,7 +65,7 @@ class _HogwartsPageState extends State<HogwartsPage> {
               _hat.setNumStd(numStd);
               _hat.setCapacityHouse();
               _capacity = _hat.getCapacityHouse();
-              _feedbackText = 'The number of students : ${_hat.getNumStd()}';
+              _feedbackText = 'Students : ${_hat.getNumStd()}';
               _controllerNum.text = "";
               appState = AppState.EnteringName;
             });
@@ -122,6 +113,7 @@ class _HogwartsPageState extends State<HogwartsPage> {
               appState = AppState.ShowResult;
               _feedbackText = "";
               _controllerName.text = "";
+              _isHat = false;
             });
           },
           child: Text("DONE"));
@@ -143,6 +135,14 @@ class _HogwartsPageState extends State<HogwartsPage> {
       inputWidget = SizedBox.shrink();
       buttonWidget = Column(
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Have a nice day, little wizard."),
+              Icon(Icons.sentiment_satisfied),
+            ],
+          ),
+          Image.asset("assets/images/wand.png", scale: 4.8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -227,6 +227,7 @@ class _HogwartsPageState extends State<HogwartsPage> {
                         _houses.resetHouse();
                         appState = AppState.EnteringName;
                         _check_n_std = 0;
+                        _isHat = true;
                       });
                     },
                     child: Icon(Icons.refresh)),
@@ -251,8 +252,11 @@ class _HogwartsPageState extends State<HogwartsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset("assets/images/Sorting-Hat-Download-PNG-Image.png",
-                scale: 4.0),
+            _isHat
+                ? Image.asset(
+                    "assets/images/Sorting-Hat-Download-PNG-Image.png",
+                    scale: 4.0)
+                : Image.asset("assets/images/flaghouse.png", scale: 6.4),
             //SizedBox(height: 24),
             Padding(
               padding: EdgeInsets.only(
