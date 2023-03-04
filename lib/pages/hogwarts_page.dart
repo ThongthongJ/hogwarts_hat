@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hogwarts_hat/pages/g.dart';
 
 import '../models/hogwarts_houses.dart';
 import '../models/hogwarts_sorting_hat.dart';
@@ -18,6 +19,11 @@ class _HogwartsPageState extends State<HogwartsPage> {
   final _controllerName = TextEditingController();
   var _feedbackText = '';
   int _check_n_std = 0;
+  int _checkG = 0;
+  int _checkH = 0;
+  int _checkR = 0;
+  int _checkS = 0;
+  String house = "";
   HogwartsHouses _houses = HogwartsHouses();
   var _hat = HogwartsSortingHat();
   List _capacity = [];
@@ -25,28 +31,108 @@ class _HogwartsPageState extends State<HogwartsPage> {
   List _hufflepuff = [];
   List _ravenclaw = [];
   List _slytherin = [];
-  bool _cack_show_houses = true;
   AppState appState = AppState.EnteringNumber;
 
   @override
   void initState() {
     this._hat = HogwartsSortingHat.from(_houses);
-    List _gryffindor = _houses.getListGryffindor();
-    List _hufflepuff = _houses.getListHufflepuff();
-    List _ravenclaw = _houses.getListRavenclaw();
-    List _slytherin = _houses.getListSlytherin();
+  }
+
+  Future<void> _showMyDialog() async {
+    _gryffindor = _houses.getListGryffindor();
+    _hufflepuff = _houses.getListHufflepuff();
+    _ravenclaw = _houses.getListRavenclaw();
+    _slytherin = _houses.getListSlytherin();
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text("Gryffindor", style: TextStyle(fontSize: 24)),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text("Hufflepuff", style: TextStyle(fontSize: 24)),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(children: [
+                          for (int i = 0; i < _hufflepuff.length; i++)
+                            Text(_hufflepuff[i])
+                        ]))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text("Ravenclaw", style: TextStyle(fontSize: 24)),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(children: [
+                          for (int i = 0; i < _ravenclaw.length; i++)
+                            Text(_ravenclaw[i])
+                        ]))
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Text(
+                      "Slytherin",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(children: [
+                          for (int i = 0; i < _slytherin.length; i++)
+                            Text(_slytherin[i])
+                        ]))
+                  ],
+                ),
+              )
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     Widget inputWidget;
     Widget buttonWidget;
+    Widget showListG;
 
-    Widget _buidListItemG(BuildContext context, int index) {
-      var _G = _houses.getListGryffindor()[index];
-      return Text(_G);
+    if (_checkG < _gryffindor.length) {
+      for (int i = 0; i < _gryffindor.length; i++) {
+        var nameG = _gryffindor[i];
+        showListG = Text(_gryffindor[i]);
+      }
     }
-
     if (appState == AppState.EnteringNumber) {
       inputWidget = TextField(
           controller: _controllerNum,
@@ -90,14 +176,14 @@ class _HogwartsPageState extends State<HogwartsPage> {
             var nameStd = _controllerName.text;
             String shortNameHouse = _hat.randomHouse();
             if (_check_n_std < _hat.getNumStd()) {
-              String house = _hat.sortingHat(shortNameHouse, nameStd);
+              house = _hat.sortingHat(shortNameHouse, nameStd);
               _feedbackText = house;
               _controllerName.text = "";
               _check_n_std++;
             }
             if (_check_n_std >= _hat.getNumStd()) {
               _controllerName.text = "";
-              _feedbackText = "";
+              _feedbackText = house;
               appState = AppState.Done;
             }
             setState(() {});
@@ -114,7 +200,6 @@ class _HogwartsPageState extends State<HogwartsPage> {
               appState = AppState.ShowResult;
               _feedbackText = "";
               _controllerName.text = "";
-              _cack_show_houses = true;
             });
           },
           child: Text("DONE"));
@@ -129,7 +214,6 @@ class _HogwartsPageState extends State<HogwartsPage> {
               appState = AppState.ShowResult;
               _feedbackText = "";
               _controllerName.text = "";
-              _cack_show_houses = true;
             });
           },
           child: Text("Exit"));
@@ -155,11 +239,71 @@ class _HogwartsPageState extends State<HogwartsPage> {
                   print(_houses.getListHufflepuff());
                   print(_houses.getListRavenclaw());
                   print(_houses.getListSlytherin());
-                  _cack_show_houses = false;
-                  appState = AppState.Exit;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HousePage(
+                          students: _houses.getListGryffindor(),
+                          houseName: 'Gryffindor',
+                        )),
+                  );
                 });
               },
-              child: Text("Show")),
+              child: Text("Show Gryffindor")),
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  print(_houses.getListGryffindor());
+                  print(_houses.getListHufflepuff());
+                  print(_houses.getListRavenclaw());
+                  print(_houses.getListSlytherin());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HousePage(
+                          students: _houses.getListHufflepuff(),
+                          houseName: 'Hufflepuff',
+                        )),
+                  );
+                });
+              },
+              child: Text("Show Hufflepuff")),
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  print(_houses.getListGryffindor());
+                  print(_houses.getListHufflepuff());
+                  print(_houses.getListRavenclaw());
+                  print(_houses.getListSlytherin());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HousePage(
+                          students: _houses.getListRavenclaw(),
+                          houseName: 'Ravenclaw',
+                        )),
+                  );
+                });
+              },
+              child: Text("Show Ravenclaw")),
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  print(_houses.getListGryffindor());
+                  print(_houses.getListHufflepuff());
+                  print(_houses.getListRavenclaw());
+                  print(_houses.getListSlytherin());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => HousePage(
+                          students: _houses.getListSlytherin(),
+                          houseName: 'Slytherin',
+                        )),
+                  );
+                });
+              },
+              child: Text("Show Slytherin")),
         ],
       );
     }
@@ -174,195 +318,55 @@ class _HogwartsPageState extends State<HogwartsPage> {
           ),
         ),
         child: Center(
-          child: Stack(
-            children: [
-              _cack_show_houses
-                  ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                            "assets/images/Sorting-Hat-Download-PNG-Image.png",
-                            scale: 4.0),
-                        //SizedBox(height: 24),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.3,
-                              right: MediaQuery.of(context).size.width * 0.3,
-                              top: 8,
-                              bottom: 16),
-                          child: Container(
-                            padding: EdgeInsets.all(8),
-                            margin: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: Color(0xFFA8601F), width: 5.6),
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0xFFF3C83D).withOpacity(0.8),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 4.8),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                    padding: const EdgeInsets.only(bottom: 16),
-                                    child: inputWidget),
-                                buttonWidget,
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Text(
-                                    _feedbackText,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Image.asset("assets/images/pngwing.png", scale: 8),
-                      ],
-                    )
-                  : Positioned(
-                      top: 100,
-                      bottom: 100,
-                      left: 100,
-                      right: 100,
-                      child: Card(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 16, bottom: 24, right: 32),
-                                  child: buttonWidget,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Color(0xFFD00001), width: 4),
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0xFFEEBA30)
-                                              .withOpacity(0.4),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 4.8),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Gryffindor",
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Color(0xFFF0C75E), width: 4),
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0xFF726255)
-                                              .withOpacity(0.4),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 4.8),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Hufflepuff",
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Color(0xFF314077), width: 4),
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0xFF5D5D5D)
-                                              .withOpacity(0.4),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 4.8),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Text(
-                                      "Ravenclaw",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Color(0xFF2A623D), width: 4),
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0xFF5D5D5D)
-                                              .withOpacity(0.4),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: const Offset(0, 4.8),
-                                        ),
-                                      ],
-                                    ),
-                                    child: Text(
-                                      "Slytherin",
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset("assets/images/Sorting-Hat-Download-PNG-Image.png",
+                scale: 4.0),
+            //SizedBox(height: 24),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.3,
+                  right: MediaQuery.of(context).size.width * 0.3,
+                  top: 8,
+                  bottom: 16),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                margin: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xFFA8601F), width: 5.6),
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFFF3C83D).withOpacity(0.8),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 4.8),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: inputWidget),
+                    buttonWidget,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        _feedbackText,
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
-            ],
-          ),
-        ),
+                  ],
+                ),
+              ),
+            ),
+            Image.asset("assets/images/pngwing.png", scale: 8),
+          ],
+        )),
       ),
     );
   }
