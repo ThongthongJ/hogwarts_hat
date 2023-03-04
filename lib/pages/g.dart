@@ -37,10 +37,10 @@ class _GryffindorPageState extends State<HousePage> {
       sColor = Color(0xF4C2AD51);
       image = Image.asset('assets/images/Sorting-Hat-Download-PNG-Image.png');
     } else if (widget.houseName == 'Ravenclaw') {
-      sColor = Colors.blue;
+      sColor = Color(0xF43A76D0);
       image = Image.asset('assets/images/Sorting-Hat-Download-PNG-Image.png');
     } else if (widget.houseName == 'Slytherin') {
-      sColor = Colors.green;
+      sColor = Color(0xFF027918);
     }
 
     return Scaffold(
@@ -50,8 +50,9 @@ class _GryffindorPageState extends State<HousePage> {
           image: DecorationImage(
             scale: 0.5,
             opacity: 0.5,
-            image: AssetImage("assets/images/pngwing.png"),
-            fit: BoxFit.cover,
+            image: AssetImage(
+              "assets/images/pngwing.png",
+            ),
           ),
         ),
         child: Column(
