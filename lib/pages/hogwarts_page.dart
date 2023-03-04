@@ -209,7 +209,6 @@ class _HogwartsPageState extends State<HogwartsPage> {
                     },
                     child: Text("Show Slytherin")),
               ),
-              SizedBox(width: 8),
             ],
           ),
           Row(
@@ -252,13 +251,13 @@ class _HogwartsPageState extends State<HogwartsPage> {
             //SizedBox(height: 24),
             Padding(
               padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.3,
-                  right: MediaQuery.of(context).size.width * 0.3,
+                  left: MediaQuery.of(context).size.width * 0.25,
+                  right: MediaQuery.of(context).size.width * 0.25,
                   top: 8,
                   bottom: 16),
               child: Container(
-                padding: EdgeInsets.all(8),
-                margin: EdgeInsets.all(16),
+                padding:
+                    EdgeInsets.only(left: 64, right: 64, top: 16, bottom: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Color(0xFFA8601F), width: 5.6),
