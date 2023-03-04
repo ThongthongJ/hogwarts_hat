@@ -27,7 +27,7 @@ class HogwartsSortingHat {
   }
 
   void setCapacityHouse() {
-    if (_num_std < 4) {
+    if (_num_std < 4 && _num_std > 0) {
       this._n_each_house = 1;
     } else {
       this._n_each_house = (this._num_std ~/ 4);
