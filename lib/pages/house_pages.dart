@@ -63,7 +63,7 @@ class _GryffindorPageState extends State<HousePage> {
                 children: [
                   ListView.builder(
                     itemBuilder: _buidListItemG,
-                    itemCount: widget.students.length,
+                    itemCount: widget.students.lengths,
                   ),
                 ],
               ),
