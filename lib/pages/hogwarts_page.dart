@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hogwarts_hat/pages/g.dart';
+import 'package:hogwarts_hat/pages/house_pages.dart';
 
 import '../models/hogwarts_houses.dart';
 import '../models/hogwarts_sorting_hat.dart';
@@ -61,12 +61,12 @@ class _HogwartsPageState extends State<HogwartsPage> {
           var numStd = int.tryParse(_controllerNum.text);
           if (numStd == null) {
             setState(() {
-              _feedbackText = 'Please enter a Number of Student.';
+              _feedbackText = 'Please enter number of student.';
               _controllerNum.text = "";
             });
           } else if (numStd <= 0) {
             setState(() {
-              _feedbackText = 'Please enter a number greater than Zero.';
+              _feedbackText = 'Please enter number greater than Zero.';
               _controllerNum.text = "";
             });
           } else {
@@ -87,23 +87,28 @@ class _HogwartsPageState extends State<HogwartsPage> {
           controller: _controllerName,
           decoration: InputDecoration(
               border: OutlineInputBorder(),
-              hintText: 'Please enter name of student '));
+              hintText: 'Please enter name of student'));
       buttonWidget = ElevatedButton(
           onPressed: () {
             var nameStd = _controllerName.text;
             String shortNameHouse = _hat.randomHouse();
-            if (_check_n_std < _hat.getNumStd()) {
-              house = _hat.sortingHat(shortNameHouse, nameStd);
-              _feedbackText = house;
-              _controllerName.text = "";
-              _check_n_std++;
-            }
-            if (_check_n_std >= _hat.getNumStd()) {
-              _controllerName.text = "";
-              _feedbackText = house;
-              appState = AppState.Done;
-            }
-            setState(() {});
+
+            setState(() {
+              if (nameStd == null || nameStd == "") {
+                _feedbackText = 'Please enter name of student';
+                _controllerNum.text = "";
+              } else if (_check_n_std < _hat.getNumStd()) {
+                house = _hat.sortingHat(shortNameHouse, nameStd);
+                _feedbackText = house;
+                _controllerName.text = "";
+                _check_n_std++;
+              }
+              if (_check_n_std >= _hat.getNumStd()) {
+                _controllerName.text = "";
+                _feedbackText = house;
+                appState = AppState.Done;
+              }
+            });
           },
           child: Text("ENTER"));
     } else if (appState == AppState.Done) {
